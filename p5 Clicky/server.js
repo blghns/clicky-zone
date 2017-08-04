@@ -45,7 +45,7 @@ var io = require('socket.io')(server);
 setInterval(heartbeat, 33);
 
 function heartbeat() {
-    io.sockets.emit('heartbeat', blobs);
+    io.sockets.emit('heartbeat', {});
 }
 
 function resetTimer() {

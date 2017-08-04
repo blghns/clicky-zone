@@ -19,8 +19,7 @@ var oldY = y;
 
 function setup() {
     createCanvas(canvasWidth, canvasHeight);
-    newLocation();
-    resetTimer();
+    //resetTimer();
     ellipseColor = color(255, 0, 0);
     socket = io.connect('http://localhost:3000/');
 
@@ -49,7 +48,7 @@ function draw() {
         timeLeft = projectedMillis - currentMillis;
         if (timeLeft < 0) {
             alert("Out of time! Score: " + score);
-            resetTimer();
+            //resetTimer();
             score = 0;
             ellipseDiameter = ellipseDiameterMax;
         }
