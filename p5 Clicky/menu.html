@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Clicky.Zone!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="menu.js"></script>
+    <link rel="stylesheet" type="text/css" href="menu.css">
+</head>
+<body>
+
+<div class="center">
+    <form onsubmit="joinLobby(event)">
+        <input type="text" id = "alias" name="alias" class="form-control" placeholder="Enter an alias...">
+        <button type="submit" id="play" class="btn-primary">PLAY</button>
+    </form>
+</div>
+
+<div class="center-bottom">
+    <div id="title-holder">
+        <p id="title"><b>King of the Hill</b></p>
+        <span id="rules"><b>Rules</b></span>
+        <p><br>5 Minutes</p>
+        <p>3 Other Players</p>
+        <p>One Circle</p>
+        <p>Clicking on the circle makes you king.</p>
+        <p>Consecutive clicks as king adds a score multiplier.</p>
+    </div>
+</div>
+
+</body>
+</html>
+
+
