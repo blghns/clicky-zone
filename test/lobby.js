@@ -5,7 +5,7 @@ module.exports = {
     this.users = [];
     var countDownStarted = false;
     const maxUsers = 4;
-    const countDownTime = 5 * 1000;
+    const countDownTime = 30 * 1000;
     this.countDownStartTime;
     this.addUser = function (user) {
       stopCountDown = false;

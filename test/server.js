@@ -61,6 +61,8 @@ function userLocked(id) {
   }
 }
 
+var colorSelection = [[255,105,180], [0,255,255], [173,255,47],[255,140,0]]; // pink, lightBlue, green, orange
+var currentColorIndex = 0;
 io.sockets.on('connection',
   // We are given a websocket object in our function
   function (socket) {
@@ -69,8 +71,8 @@ io.sockets.on('connection',
       function (data) {
         console.log("We have a new client: " + socket.id);
         console.log(socket.id + " " + data.x + " " + data.y);
-        var u = new User(socket.id, data.name, data.x, data.y, [getRandomArbitrary(0, 255), getRandomArbitrary(0, 255),
-                                                                getRandomArbitrary(0, 255)], socket);
+        var u = new User(socket.id, data.name, data.x, data.y, colorSelection[currentColorIndex], socket);
+        currentColorIndex = (currentColorIndex + 1)%4;
         lobby.addUser(u);
         users.push(u);
       }
