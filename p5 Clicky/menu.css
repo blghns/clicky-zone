@@ -10,7 +10,7 @@
 {
   left: 50%;
   position: absolute;
-  top: 50%;
+  top: 60%;
 }
 
 .center form
@@ -22,27 +22,45 @@
   width: 300px;
 }
 
+.center-top{
+  left: 50%;
+  position: absolute;
+  top: 20%;
+}
+
+.center-top img{
+  margin-left: -50%;
+  margin-top: -50%;
+  height: 300px;
+  width: 300px;
+  text-align: center;
+  font-size: 500%
+}
 .center-bottom
 {
   left: 50%;
   position: absolute;
-  top: 70%;
+  top: 80%;
 }
 
 .center-bottom div{
   border: 1px solid black;
   margin-left: -50%;
   margin-top: -50%;
-  height: 300px;
-  width: 300px;
-}
-
-#title-holder{
-  text-align: center;
+  height: 250px;
   width: 300px;
 }
 
 #title{
+
+}
+
+#rule-title-holder{
+  text-align: center;
+  width: 300px;
+}
+
+#rule-title{
   color: blue;
   font-size: x-large;
 }
