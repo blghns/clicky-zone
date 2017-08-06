@@ -1,38 +1,67 @@
 var socket;
-var user;
-var users = [];
-
+var inGame = false;
+var users;
+var objective;
 function setup() {
-  createCanvas(600, 600);
+  createCanvas(1000, 500);
   socket = io.connect('http://witr90gme4p.wit.private:3000');
   user = new User(random(width), random(height));
 
-  socket.on('heartbeat',
-    function(data) {
-      users = data.users;
+  socket.on('inLobby',
+    function (data) {
+      console.log(data);
+      var lobbyTime = new Date(data.countDownStartedAt);
+      var currentTime = new Date();
+      var diff = currentTime.getTime() - lobbyTime.getTime();
+      console.log("Count Down: " + (30 - diff/1000));
+      inGame = false;
     }
   );
-  sendUserData("start")
+  socket.on('inGame',
+    function (data) {
+      //console.log(data);
+      users = data.users;
+      objective = data.objective;
+      console.log(users[0]);
+      inGame = true;
+    }
+  );
+  socket.on('endGame',
+    function (data) {
+      console.log(data);
+      inGame = false;
+    }
+  );
+  sendStartData();
 }
 
 function draw() {
   background(140);
-  users.forEach(u => showUser(u));
-  setNewUserPos();
-  sendUserData("update");
+  if(inGame) {
+    users.forEach(u => {
+      fill(...u.col);
+      ellipse(u.x, u.y, 20);
+    })
+  }
+  sendUpdateData();
 }
 
-function setNewUserPos() {
-  user.mouseX = mouseX;
-  user.mouseY = mouseY;
-}
-
-function sendUserData(method) {
+function sendStartData() {
   var data = {
-    mouseX: user.mouseX,
-    mouseY: user.mouseY
+    name: "User",
+    x: mouseX,
+    y: mouseY
+  }
+  socket.emit('start', data);
+}
+
+function sendUpdateData() {
+  var data = {
+    mouseX: mouseX,
+    mouseY: mouseY,
+    clicked: mouseIsPressed
   };
-  socket.emit(method, data);
+  socket.emit('update', data);
 }
 
 function showUser(u) {

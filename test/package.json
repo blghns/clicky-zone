@@ -1,0 +1,7 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "dependencies": {
+    "victor": "^1.1.0"
+  }
+}
