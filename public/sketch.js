@@ -15,8 +15,8 @@ var sketch = function (p) {
 
   p.setup = function () {
     p.createCanvas(1000, 500);
-    
-    socket = io.connect('http://fast-thicket-25723.herokuapp.com:9055');
+
+    socket = io.connect('http://' + hostName);
 
     socket.on('inLobby',
       function (data) {

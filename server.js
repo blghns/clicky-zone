@@ -17,6 +17,13 @@ function listen() {
 }
 
 app.use(express.static('public'));
+app.set('view engine', 'pug')
+
+app.get('/', function(req, res) {
+  res.render('index.pug', {hostName: req.headers.host}, function(err, html){
+    res.send(html);
+  });
+});
 
 var io = require('socket.io')(server);
 
