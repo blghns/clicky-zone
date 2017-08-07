@@ -27,7 +27,9 @@ function initScoreboard(users)
     var table = document.getElementById("score-table-body")
     for (i=0; i<users.length; i++) {
         var row = table.insertRow(0);
-        row.insertAdjacentHTML("<th scope=i></th>")
+        th = document.createElement("th")
+        th.setAttribute("scope", "row")
+        row.appendChild(th);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         cell2.setAttribute("id", users[i].id + "-score");
