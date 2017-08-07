@@ -15,8 +15,12 @@ var sketch = function (p) {
 
   p.setup = function () {
     p.createCanvas(1000, 500);
+<<<<<<< HEAD
 
     socket = io.connect('http://fast-thicket-25723.herokuapp.com:9055');
+=======
+    socket = io.connect('http://witr90gme4p.wit.private:3000');
+>>>>>>> 496fc6b51c6958a45d1bf1c888602eb90256f612
 
     socket.on('inLobby',
       function (data) {
