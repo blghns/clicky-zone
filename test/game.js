@@ -12,10 +12,13 @@ module.exports = {
     this.king = users[0];
     var getNewObjective = function (didKingClicked) {
       if (didKingClicked) {
+        var newSize = this.objective.size/1.5;
+        if (newSize < 20)
+          newSize = 20;
         return {
           x: getRandomArbitrary(0, 1000),
           y: getRandomArbitrary(0, 500),
-          size: this.objective - 1
+          size: newSize
         };
       }
       else {
@@ -25,28 +28,28 @@ module.exports = {
           size: 200
         };
       }
-    }
+    }.bind(this);
 
     this.objective = getNewObjective(false);
     this.users.forEach(u => {
       u.inGame = true;
       u.game = this;
     });
-    this.time = 5 * 60; // 5 mins
+    this.time = 60; // 60 secs
 
-    this.scores = this.users.map(u => {
-      var obj = {};
-      obj[u.id] = 0;
-      return obj;
-    });
+    this.scores = this.users.reduce((a, b) => {
+      a[b.id] = 0;
+      return a
+    }, {});
     this.removeUser = function (id) {
       this.users = this.users.filter(u => u.id !== id);
       if (this.users.length === 0) {
         this.endGame()
       }
     };
+    var multiplier = 1;
     this.update = function () {
-      var userR = 40;
+      var userR = 10;
       users.forEach(u => u.update());
       for (let i = 0; i < users.length; i++) {
         var u = users[i];
@@ -54,21 +57,26 @@ module.exports = {
         var vec1 = new Victor(pos.x, pos.y);
         var vec2 = new Victor(this.objective.x, this.objective.y);
         var dist = vec1.distance(vec2); //TODO: get distance sq
-        if (dist < this.objective.size + userR && u.clicked) {
-          this.scores[u.id]++;
-          if (u === this.king) {
-            this.objective = getNewObjective(true);
-          } else {
-            this.objective = getNewObjective(false);
+        if(u.clicked) {
+          if (dist < (this.objective.size/2) + userR) {
+            this.scores[u.id] += multiplier;
+            if (u === this.king) {
+              this.objective = getNewObjective(true);
+              multiplier += 1;
+            } else {
+              this.objective = getNewObjective(false);
+              this.king = u;
+              multiplier = 1;
+            }
           }
-        }
-        else {
-          this.scores[u.id]--;
+          else {
+            this.scores[u.id] -= 1;
+            multiplier = 1;
+          }
         }
       }
     }
     this.endGame = function () {
-      // TODO;
       users.forEach(u => u.socket.emit('endGame', this.scores))
     };
     setInterval(() => {

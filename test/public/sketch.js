@@ -23,7 +23,7 @@ var sketch = function (p) {
         var lobbyTime = new Date(data.countDownStartedAt);
         var currentTime = new Date();
         var diff = currentTime.getTime() - lobbyTime.getTime();
-        console.log("Count Down: " + (30 - diff / 1000));
+        console.log("Count Down: " + (15 - diff / 1000));
         inGame = false;
       }
     );
@@ -37,8 +37,12 @@ var sketch = function (p) {
     );
     socket.on('endGame',
       function (data) {
+        // TODO: display scoreboard/winner?
+        // refresh page after 10 seconds
         console.log(data);
         inGame = false;
+        debugger;
+        location.reload();
       }
     );
     sendStartData();
@@ -47,10 +51,15 @@ var sketch = function (p) {
   p.draw = function () {
     p.background(140);
     if (inGame) {
+      p.ellipse(objective.x, objective.y, objective.size);
       users.forEach(u => {
         p.fill(...u.col);
         p.ellipse(u.x, u.y, 20);
       })
+    }
+    else {
+      p.fill(0);
+      p.ellipse(p.mouseX, p.mouseY, 20);
     }
     sendUpdateData();
   }
@@ -64,11 +73,15 @@ var sketch = function (p) {
     socket.emit('start', data);
   }
 
-  function sendUpdateData() {
+  p.mousePressed = function() {
+    sendUpdateData(true);
+  }
+
+  function sendUpdateData(clicked=false) {
     var data = {
       mouseX: p.mouseX,
       mouseY: p.mouseY,
-      clicked: p.mouseIsPressed
+      clicked: clicked
     };
     socket.emit('update', data);
   }

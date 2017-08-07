@@ -33,6 +33,7 @@ function heartbeat() {
       u.game.update();
       u.socket.emit('inGame', {
         users: users,
+        king: u.game.king.id,
         scores: u.game.scores,
         objective: u.game.objective,
         remainingTime: u.game.time
