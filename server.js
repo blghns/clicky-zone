@@ -20,7 +20,7 @@ app.use(express.static('public'));
 app.set('view engine', 'pug')
 
 app.get('/', function(req, res) {
-  res.render('index.pug', {hostName: req.headers.host}, function(err, html){
+  res.render('index.pug', {hostName: req.headers.host, port: server.address().port}, function(err, html){
     res.send(html);
   });
 });
