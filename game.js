@@ -47,35 +47,35 @@ module.exports = {
         this.endGame()
       }
     };
-    var multiplier = 1;
+
     this.update = function () {
-      var userR = 10;
       users.forEach(u => u.update());
-      for (let i = 0; i < users.length; i++) {
-        var u = users[i];
+    };
+
+    var multiplier = 1;
+    this.clicked = function(u) {
         var pos = u.getPos();
         var vec1 = new Victor(pos.x, pos.y);
         var vec2 = new Victor(this.objective.x, this.objective.y);
         var dist = vec1.distance(vec2); //TODO: get distance sq
-        if(u.clicked) {
-          if (dist < (this.objective.size/2) + userR) {
-            this.scores[u.id] += multiplier;
-            if (u === this.king) {
-              this.objective = getNewObjective(true);
-              multiplier += 1;
-            } else {
-              this.objective = getNewObjective(false);
-              this.king = u;
-              multiplier = 1;
-            }
-          }
-          else {
-            this.scores[u.id] -= 1;
+        var userR = 10;
+        if (dist < (this.objective.size/2) + userR) {
+          this.scores[u.id] += multiplier;
+          if (u === this.king) {
+            this.objective = getNewObjective(true);
+            multiplier += 1;
+          } else {
+            this.objective = getNewObjective(false);
+            this.king = u;
             multiplier = 1;
           }
         }
-      }
-    }
+        else {
+          this.scores[u.id] -= 1;
+          multiplier = 1;
+        }
+    };
+
     this.endGame = function () {
       users.forEach(u => u.socket.emit('endGame', this.scores))
     };

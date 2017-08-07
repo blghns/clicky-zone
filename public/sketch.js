@@ -12,7 +12,7 @@ var sketch = function (p) {
   var inGame = false;
   var users;
   var objective;
-
+  var eta = 15;
   p.setup = function () {
     p.createCanvas(1000, 500);
 
@@ -24,7 +24,8 @@ var sketch = function (p) {
         var lobbyTime = new Date(data.countDownStartedAt);
         var currentTime = new Date();
         var diff = currentTime.getTime() - lobbyTime.getTime();
-        console.log("Count Down: " + (15 - diff / 1000));
+        eta = (15 - diff / 1000);
+        console.log("Count Down: " + eta);
         inGame = false;
       }
     );
@@ -61,6 +62,8 @@ var sketch = function (p) {
     else {
       p.fill(0);
       p.ellipse(p.mouseX, p.mouseY, 20);
+      p.textSize(32);
+      p.text("Game starts in: " + Math.ceil(eta), 10, 30);
     }
     sendUpdateData();
   }
@@ -75,21 +78,15 @@ var sketch = function (p) {
   }
 
   p.mousePressed = function() {
-    sendUpdateData(true);
+    socket.emit('clicked');
   }
 
-  function sendUpdateData(clicked=false) {
+  function sendUpdateData() {
     var data = {
       mouseX: p.mouseX,
-      mouseY: p.mouseY,
-      clicked: clicked
+      mouseY: p.mouseY
     };
     socket.emit('update', data);
-  }
-
-  function showUser(u) {
-    p.fill(...u.color);
-    p.ellipse(u.mouseX, u.mouseY, 20, 20);
   }
 }
 

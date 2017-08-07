@@ -17,10 +17,10 @@ function listen() {
 }
 
 app.use(express.static('public'));
-app.set('view engine', 'pug')
+app.set('view engine', 'pug');
 
 app.get('/', function(req, res) {
-  res.render('index.pug', {hostName: req.headers.host, port: server.address().port}, function(err, html){
+  res.render('index.pug', {hostName: req.headers.host}, function(err, html){
     res.send(html);
   });
 });
@@ -97,13 +97,18 @@ io.sockets.on('connection',
             if (data.mouseY !== undefined) {
               u.mouseY = data.mouseY;
             }
-            if (data.clicked !== undefined) {
-              u.clicked = data.clicked;
-            }
           }
         }
       }
     );
+
+    socket.on('clicked',
+      function () {
+        var u = users.find(e => e.id === socket.id);
+        if(u.inGame) {
+          u.game.clicked(u);
+        }
+      });
 
     socket.on('disconnect', function () {
       console.log("Client has disconnected");
