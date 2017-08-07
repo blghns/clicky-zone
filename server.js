@@ -1,8 +1,8 @@
 
-var Blob = require('./blob.js')['Blob'];
-var Game = require('./game.js')['Game'];
-var Lobby = require('./lobby.js')['Lobby'];
-var User = require('./user.js')['User'];
+var Blob = require('./lib/blob.js')['Blob'];
+var Game = require('./lib/game.js')['Game'];
+var Lobby = require('./lib/lobby.js')['Lobby'];
+var User = require('./lib/user.js')['User'];
 var users = [];
 var lobby = new Lobby();
 
